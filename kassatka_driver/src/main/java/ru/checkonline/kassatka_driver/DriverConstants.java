@@ -7,5 +7,10 @@ public interface DriverConstants {
     String ALIAS = "ru.kassatka.integration.driver_token";
     String INTENT_RECEIVER = "ru.kassatka.driver.integration.receiver";
 
+    String EXTRA_NAME = "integration_name";
+    String EXTRA_COUNT = "integration_count";
+    String EXTRA_PRICE = "integration_price";
+    String EXTRA_TAX_MODE = "integration_tax_mode";
+
 
 }
