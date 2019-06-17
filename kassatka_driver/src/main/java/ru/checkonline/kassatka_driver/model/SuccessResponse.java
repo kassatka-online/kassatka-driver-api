@@ -50,13 +50,6 @@ public class SuccessResponse implements Response {
             throw new NullPointerException("Extra should't be null");
         }
 
-        String name = intent.getExtras().getString(DriverConstants.EXTRA_NAME);
-        String price = intent.getExtras().getString(DriverConstants.EXTRA_PRICE);
-
-        if (name == null || price == null) {
-            throw new NullPointerException("Parameters should't be null");
-        }
-
         activity.setResult(DriverConstants.RESULT_DRIVER_SUCCESS, intent);
         activity.finish();
     }
