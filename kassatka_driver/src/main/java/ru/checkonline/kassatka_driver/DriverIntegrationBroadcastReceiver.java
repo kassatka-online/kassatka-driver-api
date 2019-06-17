@@ -25,12 +25,12 @@ public abstract class DriverIntegrationBroadcastReceiver extends BroadcastReceiv
                 return;
             }
 
-            saveToken(token);
+            saveToken(context, token);
             sendAnswer(context, SUCCESS, token);
         }
     }
 
-    public abstract void saveToken(@NonNull String token);
+    public abstract void saveToken(Context context, @NonNull String token);
 
     private void sendAnswer(@Nullable Context context, @NonNull String answer, @Nullable String token) {
         if (context == null) {

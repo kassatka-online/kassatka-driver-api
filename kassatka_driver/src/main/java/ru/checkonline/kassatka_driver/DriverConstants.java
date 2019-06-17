@@ -12,5 +12,7 @@ public interface DriverConstants {
     String EXTRA_PRICE = "integration_price";
     String EXTRA_TAX_MODE = "integration_tax_mode";
 
+    String EXTRA_ERROR = "integration_error_message";
+
 
 }
