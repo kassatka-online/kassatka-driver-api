@@ -16,7 +16,7 @@ allprojects {
 в модуле `build.gradle` добавьте зависимость:
 
 ```
-implementation 'com.github.kassatka-online:kassatka-driver-api:-SNAPSHOT'
+implementation 'com.github.kassatka-online:kassatka-driver-api:1.0.0'
 ```
 
 ## Quick start
