@@ -1,1 +1,1 @@
-include ':kassatka_driver'
+include ':app', ':kassatka_driver'
