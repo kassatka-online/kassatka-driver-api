@@ -16,7 +16,7 @@ allprojects {
 в модуле `build.gradle` добавьте зависимость:
 
 ```
-implementation 'com.github.kassatka-online:kassatka-driver-api:1.0.0'
+implementation 'com.github.kassatka-online:kassatka-driver-api:1.1.1'
 ```
 
 ## Quick start
@@ -61,71 +61,86 @@ public class MyBroadcastReceiver extends DriverIntegrationBroadcastReceiver {
 
 Для успешной оплаты небоходимо вызвать 
 ``` 
-setResult(DriverConstants.RESULT_DRIVER_SUCCESS);
-finish();
+   Response response = new SuccessResponse
+                        .Builder(PaymentActivity.this, token)
+                        .setCount(route.getCount()) // количество оплаченных билетов
+                        .create();
+
+                response.finish(); // отправка данных
 ```
 Для отклонённой оплаты необходимо вызвать 
 
 ```
-setResult(DriverConstants.RESULT_DRIVER_REJECTED);
-finish();
+ Response response = new RejectedResponse
+                        .Builder(PaymentActivity.this, token)
+                        .create();
+
+                response.finish(); // отправка данных
 ```
 
 
 Пример Activity
 
 ```
-public class ExampleActivity extends Activity {
+public class PaymentActivity extends Activity {
+
+    Route route;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        //Получение данных
-
         if (getIntent() != null) {
             if (getIntent().getExtras() != null) {
-                Bundle bundle = getIntent().getExtras();
-                bundle.getString(DriverConstants.EXTRA_NAME);
-                bundle.getString(DriverConstants.EXTRA_COUNT);
-                bundle.getString(DriverConstants.EXTRA_PRICE);
+                // получение данных
+                route = Route.newInstance(getIntent().getExtras());
+            } else {
+                finish();
             }
         }
 
+        /*
+         *
+         * Ваша логика
+         *
+         */
 
-        //Например
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+        // Пример реализации ответов
+
+        findViewById(R.id.success).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // необходимая логика для успешного результата
-                  
+
                 // формирование ответа
-                Intent intent = new Intent();
-                intent.putExtra(DriverConstants.ALIAS, "токен который сохранили в BroadcastReceiver");
-                
-                setResult(DriverConstants.RESULT_DRIVER_SUCCESS);
-                finish();
+
+                Response response = new SuccessResponse
+                        .Builder(PaymentActivity.this, "ваш токен")
+                        .setCount(route.getCount()) // количество оплаченных билетов
+                        .create();
+
+                response.finish(); // отправка данных
+
             }
         });
-        
-        //Например
-        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.rejected).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // необходимая логика для отклонённого результата
-                
+
                 // формирование ответа
-                Intent intent = new Intent();
-                intent.putExtra(DriverConstants.ALIAS, "токен который сохранили в BroadcastReceiver");
-                
-                setResult(DriverConstants.RESULT_DRIVER_REJECTED);
-                finish();
+
+                Response response = new RejectedResponse
+                        .Builder(PaymentActivity.this, "ваш токен")
+                        .setError("На счете недостаточно средств")
+                        .create();
+
+                response.finish(); // отправка данных
             }
         });
     }
 }
+
 
 ```
 
